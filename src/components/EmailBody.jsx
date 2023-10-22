@@ -3,9 +3,16 @@ import { formatDateFromEpoch } from "../lib/utils";
 import HTMLParser from "html-to-json-parser";
 import { useGetEmailBodyQuery } from "../services/emailBody";
 import PropTypes from "prop-types";
-import Spinner from "./spinner";
+import Spinner from "./Spinner";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleFavoriteStatus } from "../emailListSlice";
 
 const EmailBody = ({ selectedEmailId, date, name, subject }) => {
+  const emailList = useSelector((state) => state.emailList.list);
+  const selectedEmail = emailList.find((email) => email.id === selectedEmailId);
+  const { isFavorite } = selectedEmail;
+
+  const dispatch = useDispatch();
   const [bodyInJson, setBodyInJson] = useState([]);
   const skip = !selectedEmailId;
   const { data, isLoading } = useGetEmailBodyQuery(selectedEmailId, { skip });
@@ -21,6 +28,10 @@ const EmailBody = ({ selectedEmailId, date, name, subject }) => {
       htmlToJson(data?.body);
     }
   }, [selectedEmailId, data]);
+
+  const handleMarkFavorite = () => {
+    dispatch(toggleFavoriteStatus(selectedEmailId));
+  };
 
   if (isLoading) return <Spinner />;
 
@@ -40,8 +51,11 @@ const EmailBody = ({ selectedEmailId, date, name, subject }) => {
               {formatDateFromEpoch(date)}
             </span>
           </div>
-          <button className='bg-highlight text-white rounded-full px-4 py-1.5 font-medium text-sm'>
-            Mark as favorite
+          <button
+            onClick={handleMarkFavorite}
+            className='bg-highlight text-white rounded-full px-4 py-1.5 font-medium text-sm'
+          >
+            {isFavorite ? "Remove from Favorite" : "Mark as favorite"}
           </button>
         </header>
 
@@ -62,6 +76,7 @@ EmailBody.propTypes = {
   date: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   subject: PropTypes.string.isRequired,
+  isFavorite: PropTypes.bool.isRequired,
 };
 
 export default EmailBody;

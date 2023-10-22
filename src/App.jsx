@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import EmailBody from "./components/email-body";
-import EmailItem from "./components/email-item";
+import EmailBody from "./components/EmailBody";
+import EmailItem from "./components/EmailItem";
 import { useGetEmailListQuery } from "./services/emailList";
 import { useDispatch, useSelector } from "react-redux";
 import { setList } from "./emailListSlice";
