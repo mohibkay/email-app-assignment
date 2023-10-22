@@ -1,11 +1,24 @@
 import { formatDateFromEpoch } from "../lib/utils";
 import PropTypes from "prop-types";
 
-const EmailItem = ({ date, name, email, shortDescription, subject }) => {
+const EmailItem = ({
+  date,
+  name,
+  email,
+  shortDescription,
+  subject,
+  isSelected,
+  handleClick,
+}) => {
+  const highlightSelectedEmail = isSelected ? "border-highlight" : "";
+
   return (
-    <div className='flex items-start gap-4 border bg-white hover:border-highlight cursor-pointer px-4 py-3 rounded-lg'>
-      <div className='h-12 w-12 shrink-0 rounded-full bg-highlight text-white grid place-content-center text-xl font-semibold'>
-        F
+    <div
+      onClick={handleClick}
+      className={`flex items-start gap-4 border bg-white hover:shadow-xl cursor-pointer px-4 py-3 rounded-lg ${highlightSelectedEmail}`}
+    >
+      <div className='h-12 w-12 shrink-0 uppercase rounded-full bg-highlight text-white grid place-content-center text-xl font-semibold'>
+        {name[0]}
       </div>
 
       <div className='space-y-2'>
@@ -40,6 +53,8 @@ EmailItem.propTypes = {
   email: PropTypes.string.isRequired,
   shortDescription: PropTypes.string.isRequired,
   subject: PropTypes.string.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
 
 export default EmailItem;
