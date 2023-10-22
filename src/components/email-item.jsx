@@ -11,6 +11,7 @@ const EmailItem = ({
   handleClick,
 }) => {
   const highlightSelectedEmail = isSelected ? "border-highlight" : "";
+  const isFavorite = false;
 
   return (
     <div
@@ -38,9 +39,11 @@ const EmailItem = ({
 
         <div className='flex items-center'>
           <p className='text-primary-foreground'>{formatDateFromEpoch(date)}</p>
-          <button className='bg-none text-highlight font-semibold text-base ml-6'>
-            Favorite
-          </button>
+          {isFavorite && (
+            <button className='bg-none text-highlight font-semibold text-base ml-6'>
+              Favorite
+            </button>
+          )}
         </div>
       </div>
     </div>
