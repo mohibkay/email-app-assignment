@@ -5,22 +5,22 @@ import EmailItem from "./components/email-item";
 import { useGetEmailListQuery } from "./services/emailList";
 
 function App() {
-  const [selectedEmailId, setSelectedEmailId] = useState(null);
-  console.log("🐬 ~ App ~ selectedEmailId:", selectedEmailId);
+  const [selectedEmail, setSelectedEmail] = useState(null);
   const { data: emailList } = useGetEmailListQuery();
-  const emailListView = selectedEmailId ? "grid-cols-3" : "grid-cols-1";
+  const emailListView = selectedEmail ? "grid-cols-3" : "grid-cols-1";
 
   return (
     <div className={`p-6 grid ${emailListView} gap-6`}>
       <div className='space-y-6 col-span-1 h-screen sticky overflow-y-auto no-scrollbar pb-16'>
-        {emailList?.list.map(
-          ({
+        {emailList?.list.map((emailItem) => {
+          const {
             date,
             from: { name, email },
             id,
             short_description: shortDescription,
             subject,
-          }) => (
+          } = emailItem;
+          return (
             <EmailItem
               key={id}
               date={date}
@@ -28,15 +28,20 @@ function App() {
               email={email}
               shortDescription={shortDescription}
               subject={subject}
-              isSelected={selectedEmailId === id}
-              handleClick={() => setSelectedEmailId(id)}
+              isSelected={selectedEmail?.id === id}
+              handleClick={() => setSelectedEmail(emailItem)}
             />
-          )
-        )}
+          );
+        })}
       </div>
-      {selectedEmailId && (
+      {selectedEmail && (
         <div className='col-span-2'>
-          <EmailBody selectedEmailId={selectedEmailId} />
+          <EmailBody
+            selectedEmailId={selectedEmail.id}
+            date={selectedEmail.date}
+            name={selectedEmail.from.name}
+            subject={selectedEmail.subject}
+          />
         </div>
       )}
     </div>
