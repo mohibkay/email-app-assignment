@@ -31,7 +31,7 @@ const EmailBody = ({ selectedEmailId, date, name, subject }) => {
       </div>
 
       <div className='space-y-2 w-full px-4'>
-        <header className='space-y-1 flex items-center justify-between'>
+        <header className='space-y-1 flex items-center justify-between  mb-6'>
           <div>
             <span className='text-primary-foreground mb-4 text-3xl font-semibold block'>
               {subject}
@@ -45,11 +45,13 @@ const EmailBody = ({ selectedEmailId, date, name, subject }) => {
           </button>
         </header>
 
-        <>
+        <div className='space-y-4 mt-8'>
           {bodyInJson?.content?.map((item, idx) => (
-            <p key={item + idx}>{item.content}</p>
+            <p className='text-primary-foreground text-sm' key={item + idx}>
+              {item.content}
+            </p>
           ))}
-        </>
+        </div>
       </div>
     </div>
   );
