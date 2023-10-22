@@ -1,22 +1,31 @@
+import { useDispatch } from "react-redux";
+import { toggleReadStatus } from "../emailListSlice";
 import { formatDateFromEpoch } from "../lib/utils";
 import PropTypes from "prop-types";
 
 const EmailItem = ({
+  id,
   date,
   name,
   email,
+  isRead,
+  isFavorite,
   shortDescription,
   subject,
   isSelected,
   handleClick,
 }) => {
   const highlightSelectedEmail = isSelected ? "border-highlight" : "";
-  const isFavorite = false;
+  const readEmaiBg = isRead ? "bg-read-background" : "bg-white";
+  const dispatch = useDispatch();
 
   return (
     <div
-      onClick={handleClick}
-      className={`flex items-start gap-4 border bg-white hover:shadow-xl cursor-pointer px-4 py-3 rounded-lg ${highlightSelectedEmail}`}
+      onClick={() => {
+        dispatch(toggleReadStatus(id));
+        handleClick();
+      }}
+      className={`flex items-start gap-4 border hover:shadow-xl cursor-pointer px-4 py-3 rounded-lg ${highlightSelectedEmail} ${readEmaiBg}`}
     >
       <div className='h-12 w-12 shrink-0 uppercase rounded-full bg-highlight text-white grid place-content-center text-xl font-semibold'>
         {name[0]}
@@ -51,6 +60,9 @@ const EmailItem = ({
 };
 
 EmailItem.propTypes = {
+  isRead: PropTypes.bool.isRequired,
+  isFavorite: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
   date: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
