@@ -1385,6 +1385,13 @@ hasown@^2.0.0:
   dependencies:
     function-bind "^1.1.2"
 
+html-to-json-parser@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/html-to-json-parser/-/html-to-json-parser-1.1.0.tgz#a81fe1b5b7d02b071cf1f8210f4808cf7342b4c3"
+  integrity sha512-j6JiUBhIQkC+guahmh0VKwQRrnsROpUaRWAQyRlu5tp6atQg9ljeU70eBtpHSJwNALFNo//VOozvif7AQlfOtA==
+  dependencies:
+    xmldom "^0.6.0"
+
 ignore@^5.2.0:
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.4.tgz#a291c0c6178ff1b960befe47fcdec301674a6324"
@@ -2516,6 +2523,11 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==
+
+xmldom@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.6.0.tgz#43a96ecb8beece991cef382c08397d82d4d0c46f"
+  integrity sha512-iAcin401y58LckRZ0TkI4k0VSM1Qg0KGSc3i8rU+xrxe19A/BN1zHyVSJY7uoutVlaTSzYyk/v5AmkewAP7jtg==
 
 yallist@^3.0.2:
   version "3.1.1"

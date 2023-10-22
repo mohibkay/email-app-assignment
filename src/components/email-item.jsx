@@ -9,8 +9,8 @@ const EmailItem = () => {
   const date = 1582729505000;
 
   return (
-    <div className='flex gap-4 border bg-white hover:border-highlight cursor-pointer px-4 py-3 rounded-lg'>
-      <div className='h-12 w-12 rounded-full bg-highlight text-white grid place-content-center text-xl font-semibold'>
+    <div className='flex items-start gap-4 border bg-white hover:border-highlight cursor-pointer px-4 py-3 rounded-lg'>
+      <div className='h-12 w-12 shrink-0 rounded-full bg-highlight text-white grid place-content-center text-xl font-semibold'>
         F
       </div>
 
@@ -18,14 +18,16 @@ const EmailItem = () => {
         <header className='space-y-1'>
           <p>
             <span className='text-primary-foreground mr-1'>From:</span>
-            <span className='text-primary-foreground font-bold'>{`${name} <${email}>`}</span>
+            <span className='text-primary-foreground font-semibold'>{`${name} <${email}>`}</span>
           </p>
           <p>
             <span className='text-primary-foreground mr-1'>Subject:</span>{" "}
-            <span className='text-primary-foreground font-bold'>{subject}</span>
+            <span className='text-primary-foreground font-semibold'>
+              {subject}
+            </span>
           </p>
         </header>
-        <p className='text-primary-foreground '>{shortDescription}</p>
+        <p className='text-primary-foreground'>{shortDescription}</p>
 
         <div className='flex items-center'>
           <p className='text-primary-foreground'>{formatDateFromEpoch(date)}</p>
