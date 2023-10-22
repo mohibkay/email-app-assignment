@@ -18,7 +18,7 @@ export const emailListSlice = createSlice({
     toggleReadStatus: (state, action) => {
       const email = state.list.find((item) => item.id === action.payload);
       if (email) {
-        email.isRead = !email.isRead;
+        email.isRead = true;
       }
     },
     toggleFavoriteStatus: (state, action) => {
