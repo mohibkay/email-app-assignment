@@ -35,6 +35,10 @@ function App() {
     setFilteredEmailList(filteredList);
   }, [emailList, filterBy]);
 
+  useEffect(() => {
+    setSelectedEmail(null);
+  }, [filterBy]);
+
   return (
     <div className='p-6'>
       <div className='max-w-7xl mx-auto'>
@@ -70,6 +74,24 @@ function App() {
           >
             Favorites
           </button>
+          {filterBy && (
+            <button className='ml-4' onClick={() => setFilterBy("")}>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='1.5'
+                stroke='currentColor'
+                className='w-6 h-6'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M6 18L18 6M6 6l12 12'
+                />
+              </svg>
+            </button>
+          )}
         </div>
 
         <div className={`grid ${emailListView} gap-6`}>
@@ -105,6 +127,7 @@ function App() {
           {selectedEmail && (
             <div className='col-span-2'>
               <EmailBody
+                isFavorite={selectedEmail.isFavorite}
                 selectedEmailId={selectedEmail.id}
                 date={selectedEmail.date}
                 name={selectedEmail.from.name}
