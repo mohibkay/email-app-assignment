@@ -1,13 +1,7 @@
 import { formatDateFromEpoch } from "../lib/utils";
+import PropTypes from "prop-types";
 
-const EmailItem = () => {
-  const name = "Foo Bar";
-  const email = "foo.bar@gmail.com";
-  const subject = "Lorem Ipsum";
-  const shortDescription =
-    "Vestibulum sit amet ipsum aliquet, lacinia nulla malesuada, ullamcorper massa";
-  const date = 1582729505000;
-
+const EmailItem = ({ date, name, email, shortDescription, subject }) => {
   return (
     <div className='flex items-start gap-4 border bg-white hover:border-highlight cursor-pointer px-4 py-3 rounded-lg'>
       <div className='h-12 w-12 shrink-0 rounded-full bg-highlight text-white grid place-content-center text-xl font-semibold'>
@@ -38,6 +32,14 @@ const EmailItem = () => {
       </div>
     </div>
   );
+};
+
+EmailItem.propTypes = {
+  date: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  shortDescription: PropTypes.string.isRequired,
+  subject: PropTypes.string.isRequired,
 };
 
 export default EmailItem;
