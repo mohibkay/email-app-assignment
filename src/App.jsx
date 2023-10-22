@@ -4,7 +4,11 @@ import EmailItem from "./components/email-item";
 function App() {
   return (
     <div className='p-6'>
-      <EmailItem />
+      <div className='space-y-6'>
+        {[...Array(10)].map((item) => (
+          <EmailItem key={item} />
+        ))}
+      </div>
     </div>
   );
 }
