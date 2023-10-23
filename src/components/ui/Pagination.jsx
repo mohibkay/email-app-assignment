@@ -1,11 +1,9 @@
 import PropTypes from "prop-types";
+import { calculateEmailRange } from "../../lib/utils";
 
 const Pagination = ({ page, setPage }) => {
   const leftArrowColor = page === 1 ? "text-faded" : "text-black";
   const rightArrowColor = page === 2 ? "text-faded" : "text-black";
-  const totalEmails = 30;
-  const startIndex = (page - 1) * 15 + 1;
-  const endIndex = page * 15;
 
   const updatePageNumber = (count) => {
     setPage(count);
@@ -14,16 +12,16 @@ const Pagination = ({ page, setPage }) => {
   return (
     <div className='flex items-center space-x-3'>
       <div>
-        <span>{`${startIndex}-${endIndex} of ${totalEmails}`}</span>
+        <span>{calculateEmailRange(page)}</span>
       </div>
       <button disabled={page === 1} onClick={() => updatePageNumber(1)}>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
           viewBox='0 0 24 24'
-          strokeWidth='1.5'
+          strokeWidth='2'
           stroke='currentColor'
-          className={`w-6 h-6 ${leftArrowColor}`}
+          className={`w-5 h-5 ${leftArrowColor}`}
         >
           <path
             strokeLinecap='round'
@@ -38,9 +36,9 @@ const Pagination = ({ page, setPage }) => {
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
           viewBox='0 0 24 24'
-          strokeWidth='1.5'
+          strokeWidth='2'
           stroke='currentColor'
-          className={`w-6 h-6 ${rightArrowColor}`}
+          className={`w-5 h-5 ${rightArrowColor}`}
         >
           <path
             strokeLinecap='round'

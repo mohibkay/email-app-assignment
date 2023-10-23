@@ -14,3 +14,11 @@ export function formatDateFromEpoch(epochTime) {
 
   return `${formattedDate} ${formattedTime}`;
 }
+
+export function calculateEmailRange(page) {
+  const totalEmails = 30;
+  const startIndex = (page - 1) * 15 + 1;
+  const endIndex = page * 15;
+
+  return `${startIndex}-${endIndex} of ${totalEmails}`;
+}
