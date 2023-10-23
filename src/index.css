@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  @variants responsive {
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  }
+}
+
 body {
   background-color: #f3f6fa;
+  height: 100vh;
 }
