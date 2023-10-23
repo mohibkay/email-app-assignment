@@ -7,12 +7,14 @@ import { setList } from "./emailListSlice";
 import FilterBar from "./components/ui/FilterBar";
 import EmailList from "./components/ui/EmailList";
 import Spinner from "./components/utils/Spinner";
+import Pagination from "./components/ui/Pagination";
 
 function App() {
   const dispatch = useDispatch();
+  const [page, setPage] = useState(1);
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [filterBy, setFilterBy] = useState("");
-  const { data, isLoading } = useGetEmailListQuery();
+  const { data, isFetching } = useGetEmailListQuery(page);
   const emailListView = selectedEmail ? "grid-cols-3" : "grid-cols-1";
   const emailList = useSelector((state) => state.emailList.list);
   const [filteredEmailList, setFilteredEmailList] = useState([...emailList]);
@@ -50,9 +52,12 @@ function App() {
   return (
     <div className='p-6 h-screen'>
       <div className='max-w-7xl mx-auto'>
-        <FilterBar filterBy={filterBy} setFilterBy={setFilterBy} />
+        <div className='flex items-center justify-between'>
+          <FilterBar filterBy={filterBy} setFilterBy={setFilterBy} />
+          <Pagination page={page} setPage={setPage} />
+        </div>
         <div className={`grid ${emailListView} gap-6`}>
-          {isLoading ? (
+          {isFetching ? (
             <Spinner />
           ) : (
             <EmailList

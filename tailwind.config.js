@@ -11,6 +11,7 @@ export default {
         "filter-btn": "#e1e4ea",
         "read-background": "#f2f2f2",
         "primary-background": "#F3F6FA",
+        faded: "#b8b8b8",
       },
     },
   },
