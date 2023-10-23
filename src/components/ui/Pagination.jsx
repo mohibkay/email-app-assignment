@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { calculateEmailRange } from "../../lib/utils";
 
-const Pagination = ({ page, setPage }) => {
+const Pagination = ({ page, setPage, emailCount, totalEmailCount }) => {
   const leftArrowColor = page === 1 ? "text-faded" : "text-black";
   const rightArrowColor = page === 2 ? "text-faded" : "text-black";
 
@@ -12,7 +12,7 @@ const Pagination = ({ page, setPage }) => {
   return (
     <div className='flex items-center space-x-3'>
       <div>
-        <span>{calculateEmailRange(page)}</span>
+        <span>{calculateEmailRange(page, emailCount, totalEmailCount)}</span>
       </div>
       <button disabled={page === 1} onClick={() => updatePageNumber(1)}>
         <svg
@@ -54,6 +54,8 @@ const Pagination = ({ page, setPage }) => {
 Pagination.propTypes = {
   page: PropTypes.number.isRequired,
   setPage: PropTypes.func.isRequired,
+  emailCount: PropTypes.number.isRequired,
+  totalEmailCount: PropTypes.number.isRequired,
 };
 
 export default Pagination;

@@ -54,7 +54,14 @@ function App() {
       <div className='max-w-7xl mx-auto'>
         <div className='flex items-center justify-between'>
           <FilterBar filterBy={filterBy} setFilterBy={setFilterBy} />
-          <Pagination page={page} setPage={setPage} />
+          {!isFetching && (
+            <Pagination
+              page={page}
+              setPage={setPage}
+              emailCount={data.list.length}
+              totalEmailCount={data.total}
+            />
+          )}
         </div>
         <div className={`grid ${emailListView} gap-6`}>
           {isFetching ? (
