@@ -6,12 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setList } from "./emailListSlice";
 import FilterBar from "./components/FilterBar";
 import EmailList from "./components/EmailList";
+import Spinner from "./components/Spinner";
 
 function App() {
   const dispatch = useDispatch();
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [filterBy, setFilterBy] = useState("");
-  const { data } = useGetEmailListQuery();
+  const { data, isLoading } = useGetEmailListQuery();
   const emailListView = selectedEmail ? "grid-cols-3" : "grid-cols-1";
   const emailList = useSelector((state) => state.emailList.list);
   const [filteredEmailList, setFilteredEmailList] = useState([...emailList]);
@@ -50,11 +51,15 @@ function App() {
       <div className='max-w-7xl mx-auto'>
         <FilterBar filterBy={filterBy} setFilterBy={setFilterBy} />
         <div className={`grid ${emailListView} gap-6`}>
-          <EmailList
-            filteredEmailList={filteredEmailList}
-            selectedEmail={selectedEmail}
-            setSelectedEmail={setSelectedEmail}
-          />
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <EmailList
+              filteredEmailList={filteredEmailList}
+              selectedEmail={selectedEmail}
+              setSelectedEmail={setSelectedEmail}
+            />
+          )}
 
           {selectedEmail && (
             <div className='col-span-2'>

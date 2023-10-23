@@ -5,6 +5,7 @@ import { useGetEmailDetailsQuery } from "../services/emailDetails";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleFavoriteStatus } from "../emailListSlice";
+import Spinner from "./Spinner";
 
 const EmailDetails = ({ selectedEmailId, date, name, subject }) => {
   const emailList = useSelector((state) => state.emailList.list);
@@ -14,7 +15,7 @@ const EmailDetails = ({ selectedEmailId, date, name, subject }) => {
   const dispatch = useDispatch();
   const [bodyInJson, setBodyInJson] = useState([]);
   const skip = !selectedEmailId;
-  const { data } = useGetEmailDetailsQuery(selectedEmailId, {
+  const { data, isLoading } = useGetEmailDetailsQuery(selectedEmailId, {
     skip,
   });
 
@@ -33,6 +34,8 @@ const EmailDetails = ({ selectedEmailId, date, name, subject }) => {
   const handleMarkFavorite = () => {
     dispatch(toggleFavoriteStatus(selectedEmailId));
   };
+
+  if (isLoading) return <Spinner />;
 
   return (
     <div className='flex gap-4 border h-[calc(100vh-36px)] bg-white border-grayBorder cursor-pointer px-4 py-4 rounded-lg'>
