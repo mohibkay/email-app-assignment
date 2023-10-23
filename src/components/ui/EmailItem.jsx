@@ -18,7 +18,7 @@ const EmailItem = ({
 }) => {
   const highlightSelectedEmail = isSelected ? "border-highlight" : "";
   const readEmaiBg = isRead ? "bg-read-background" : "bg-white";
-  const shortDescriptionMaxWidth = isOpenInSidePane ? "max-w-[32ch]" : "";
+  const textMaxWidth = isOpenInSidePane ? "max-w-[32ch]" : "";
   const dispatch = useDispatch();
 
   return (
@@ -35,11 +35,11 @@ const EmailItem = ({
 
       <div className='space-y-2'>
         <header className='space-y-1'>
-          <div className='text-sm'>
+          <div className={`text-sm truncate ${textMaxWidth}`}>
             <span className='text-primary-foreground mr-1'>From:</span>
-            <span className='text-primary-foreground font-semibold truncate ...'>{`${name} <${email}>`}</span>
+            <span className='text-primary-foreground font-semibold'>{`${name} <${email}>`}</span>
           </div>
-          <div className='text-sm'>
+          <div className={`text-sm truncate ${textMaxWidth}`}>
             <span className='text-primary-foreground mr-1'>Subject:</span>{" "}
             <span className='text-primary-foreground font-semibold'>
               {subject}
@@ -47,7 +47,7 @@ const EmailItem = ({
           </div>
         </header>
         <p
-          className={`text-sm text-primary-foreground truncate ${shortDescriptionMaxWidth}`}
+          className={`text-sm text-primary-foreground truncate ${textMaxWidth}`}
         >
           {shortDescription}
         </p>
