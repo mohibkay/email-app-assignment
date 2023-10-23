@@ -16,6 +16,7 @@ function App() {
   const emailListView = selectedEmail ? "grid-cols-3" : "grid-cols-1";
   const emailList = useSelector((state) => state.emailList.list);
   const [filteredEmailList, setFilteredEmailList] = useState([...emailList]);
+  const isOpenInSidePane = !!selectedEmail;
   console.log("🐬 ~ App ~ filteredEmailList:", filteredEmailList);
 
   useEffect(() => {
@@ -55,13 +56,14 @@ function App() {
             <Spinner />
           ) : (
             <EmailList
+              isOpenInSidePane={isOpenInSidePane}
               filteredEmailList={filteredEmailList}
               selectedEmail={selectedEmail}
               setSelectedEmail={setSelectedEmail}
             />
           )}
 
-          {selectedEmail && (
+          {isOpenInSidePane && (
             <div className='col-span-2'>
               <EmailDetails
                 isFavorite={selectedEmail.isFavorite}

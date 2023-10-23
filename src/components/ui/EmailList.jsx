@@ -1,7 +1,12 @@
 import PropTypes from "prop-types";
 import EmailItem from "./EmailItem";
 
-const EmailList = ({ filteredEmailList, selectedEmail, setSelectedEmail }) => {
+const EmailList = ({
+  isOpenInSidePane,
+  filteredEmailList,
+  selectedEmail,
+  setSelectedEmail,
+}) => {
   return (
     <div className='space-y-6 col-span-1 h-screen sticky overflow-y-auto no-scrollbar pb-16'>
       {filteredEmailList?.map((emailItem) => {
@@ -24,6 +29,7 @@ const EmailList = ({ filteredEmailList, selectedEmail, setSelectedEmail }) => {
             id={id}
             isRead={isRead}
             isFavorite={isFavorite}
+            isOpenInSidePane={isOpenInSidePane}
             shortDescription={shortDescription}
             subject={subject}
             isSelected={selectedEmail?.id === id}
@@ -36,6 +42,7 @@ const EmailList = ({ filteredEmailList, selectedEmail, setSelectedEmail }) => {
 };
 
 EmailList.propTypes = {
+  isOpenInSidePane: PropTypes.bool.isRequired,
   filteredEmailList: PropTypes.array.isRequired,
   selectedEmail: PropTypes.object,
   setSelectedEmail: PropTypes.func.isRequired,
