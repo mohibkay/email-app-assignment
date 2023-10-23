@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import EmailBody from "./components/EmailBody";
+import EmailDetails from "./components/EmailDetails";
 import { useGetEmailListQuery } from "./services/emailList";
 import { useDispatch, useSelector } from "react-redux";
 import { setList } from "./emailListSlice";
@@ -58,7 +58,7 @@ function App() {
 
           {selectedEmail && (
             <div className='col-span-2'>
-              <EmailBody
+              <EmailDetails
                 isFavorite={selectedEmail.isFavorite}
                 selectedEmailId={selectedEmail.id}
                 date={selectedEmail.date}

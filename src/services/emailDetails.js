@@ -2,14 +2,14 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const emailListEndpoint = "https://flipkart-email-mock.vercel.app/";
 
-export const emailBodyApi = createApi({
-  reducerPath: "emailBodyApi",
+export const emailDetailsApi = createApi({
+  reducerPath: "emailDetailsApi",
   baseQuery: fetchBaseQuery({ baseUrl: emailListEndpoint }),
   endpoints: (builder) => ({
-    getEmailBody: builder.query({
+    getEmailDetails: builder.query({
       query: (id) => `/?id=${id}`,
     }),
   }),
 });
 
-export const { useGetEmailBodyQuery } = emailBodyApi;
+export const { useGetEmailDetailsQuery } = emailDetailsApi;

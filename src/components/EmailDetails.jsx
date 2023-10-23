@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { formatDateFromEpoch } from "../lib/utils";
 import HTMLParser from "html-to-json-parser";
-import { useGetEmailBodyQuery } from "../services/emailBody";
+import { useGetEmailDetailsQuery } from "../services/emailDetails";
 import PropTypes from "prop-types";
 import Spinner from "./Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleFavoriteStatus } from "../emailListSlice";
 
-const EmailBody = ({ selectedEmailId, date, name, subject }) => {
+const EmailDetails = ({ selectedEmailId, date, name, subject }) => {
   const emailList = useSelector((state) => state.emailList.list);
   const selectedEmail = emailList.find((email) => email.id === selectedEmailId);
   const { isFavorite } = selectedEmail;
@@ -15,7 +15,9 @@ const EmailBody = ({ selectedEmailId, date, name, subject }) => {
   const dispatch = useDispatch();
   const [bodyInJson, setBodyInJson] = useState([]);
   const skip = !selectedEmailId;
-  const { data, isLoading } = useGetEmailBodyQuery(selectedEmailId, { skip });
+  const { data, isLoading } = useGetEmailDetailsQuery(selectedEmailId, {
+    skip,
+  });
 
   async function htmlToJson(body) {
     let result = await HTMLParser(body, true);
@@ -71,7 +73,7 @@ const EmailBody = ({ selectedEmailId, date, name, subject }) => {
   );
 };
 
-EmailBody.propTypes = {
+EmailDetails.propTypes = {
   selectedEmailId: PropTypes.string.isRequired,
   date: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
@@ -79,4 +81,4 @@ EmailBody.propTypes = {
   isFavorite: PropTypes.bool.isRequired,
 };
 
-export default EmailBody;
+export default EmailDetails;
