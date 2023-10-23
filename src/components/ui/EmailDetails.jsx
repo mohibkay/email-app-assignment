@@ -39,13 +39,13 @@ const EmailDetails = ({ selectedEmailId, date, name, subject }) => {
   };
 
   return (
-    <div className='flex gap-4 border h-[calc(100vh-36px)] bg-white border-grayBorder cursor-pointer px-4 py-4 rounded-lg'>
+    <div className='flex gap-4 border h-[calc(100vh-84px)] bg-white border-grayBorder cursor-pointer px-4 py-4 rounded-lg'>
       <div className='h-12 w-12 uppercase rounded-full shrink-0 bg-highlight text-white grid place-content-center text-xl font-semibold'>
         {name[0]}
       </div>
 
-      <div className='space-y-2 w-full px-4'>
-        <header className='space-y-1 flex items-center justify-between  mb-6'>
+      <div className='space-y-2 w-full px-4 flex flex-col'>
+        <header className='space-y-1 sticky flex items-center justify-between  mb-6'>
           <div>
             <span className='text-primary-foreground mb-4 text-3xl font-semibold block'>
               {subject}
@@ -65,7 +65,7 @@ const EmailDetails = ({ selectedEmailId, date, name, subject }) => {
         {isFetching ? (
           <Spinner />
         ) : (
-          <div className='space-y-4 mt-8'>
+          <div className='space-y-4 mt-8 flex-1 overflow-auto '>
             {bodyInJson?.content?.map((item, idx) => (
               <p className='text-primary-foreground text-sm' key={item + idx}>
                 {item.content}

@@ -48,7 +48,7 @@ function App() {
   }, [filterBy]);
 
   return (
-    <div className='p-6'>
+    <div className='p-6 h-screen'>
       <div className='max-w-7xl mx-auto'>
         <FilterBar filterBy={filterBy} setFilterBy={setFilterBy} />
         <div className={`grid ${emailListView} gap-6`}>

@@ -8,7 +8,7 @@ const EmailList = ({
   setSelectedEmail,
 }) => {
   return (
-    <div className='space-y-6 col-span-1 h-screen sticky overflow-y-auto no-scrollbar pb-16'>
+    <div className='space-y-6 col-span-1 h-[calc(100vh-84px)] sticky overflow-y-auto no-scrollbar pb-4'>
       {filteredEmailList?.map((emailItem) => {
         const {
           date,
