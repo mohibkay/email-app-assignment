@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 const Pagination = ({ page, setPage }) => {
   const leftArrowColor = page === 1 ? "text-faded" : "text-black";
   const rightArrowColor = page === 2 ? "text-faded" : "text-black";
+  const totalEmails = 30;
+  const startIndex = (page - 1) * 15 + 1;
+  const endIndex = page * 15;
 
   const updatePageNumber = (count) => {
     setPage(count);
@@ -10,6 +13,9 @@ const Pagination = ({ page, setPage }) => {
 
   return (
     <div className='flex items-center space-x-3'>
+      <div>
+        <span>{`${startIndex}-${endIndex} of ${totalEmails}`}</span>
+      </div>
       <button disabled={page === 1} onClick={() => updatePageNumber(1)}>
         <svg
           xmlns='http://www.w3.org/2000/svg'
