@@ -1,8 +1,17 @@
-# React + Vite
+# HuffMail: Your Inbox, Your Zen Zone
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### An email client built with React, Redux, & TailwindCSS
 
-Currently, two official plugins are available:
+### Features:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### List all emails
+
+<img width="1512" alt="Screenshot 2023-10-23 at 1 44 00 PM" src="https://github.com/mohibkay/email-app-assignment/assets/66241121/aba80803-6bb2-41b8-bf1d-4b72a291cf80">
+
+### Read an email and mark as favorite
+
+<img width="1512" alt="Screenshot 2023-10-23 at 1 44 26 PM" src="https://github.com/mohibkay/email-app-assignment/assets/66241121/58616ce0-8175-4acb-bbc9-c4e940a48f73">
+
+### Filter by favorite, read, & unread
+
+<img width="1512" alt="Screenshot 2023-10-23 at 1 44 32 PM" src="https://github.com/mohibkay/email-app-assignment/assets/66241121/b30b8b37-ffc8-4a71-b407-b4f0c06f919b">
