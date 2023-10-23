@@ -11,11 +11,10 @@ const EmailDetails = ({ selectedEmailId, date, name, subject }) => {
   const emailList = useSelector((state) => state.emailList.list);
   const selectedEmail = emailList.find((email) => email.id === selectedEmailId);
   const { isFavorite } = selectedEmail;
-
   const dispatch = useDispatch();
   const [bodyInJson, setBodyInJson] = useState([]);
   const skip = !selectedEmailId;
-  const { data, isLoading } = useGetEmailDetailsQuery(selectedEmailId, {
+  const { data, isFetching } = useGetEmailDetailsQuery(selectedEmailId, {
     skip,
   });
 
@@ -26,16 +25,18 @@ const EmailDetails = ({ selectedEmailId, date, name, subject }) => {
   }
 
   useEffect(() => {
-    if (data) {
-      htmlToJson(data?.body);
+    try {
+      if (data) {
+        htmlToJson(data?.body);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }, [selectedEmailId, data]);
 
   const handleMarkFavorite = () => {
     dispatch(toggleFavoriteStatus(selectedEmailId));
   };
-
-  if (isLoading) return <Spinner />;
 
   return (
     <div className='flex gap-4 border h-[calc(100vh-36px)] bg-white border-grayBorder cursor-pointer px-4 py-4 rounded-lg'>
@@ -61,13 +62,17 @@ const EmailDetails = ({ selectedEmailId, date, name, subject }) => {
           </button>
         </header>
 
-        <div className='space-y-4 mt-8'>
-          {bodyInJson?.content?.map((item, idx) => (
-            <p className='text-primary-foreground text-sm' key={item + idx}>
-              {item.content}
-            </p>
-          ))}
-        </div>
+        {isFetching ? (
+          <Spinner />
+        ) : (
+          <div className='space-y-4 mt-8'>
+            {bodyInJson?.content?.map((item, idx) => (
+              <p className='text-primary-foreground text-sm' key={item + idx}>
+                {item.content}
+              </p>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
