@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import EmailBody from "./components/EmailBody";
-import EmailItem from "./components/EmailItem";
 import { useGetEmailListQuery } from "./services/emailList";
 import { useDispatch, useSelector } from "react-redux";
 import { setList } from "./emailListSlice";
 import FilterBar from "./components/FilterBar";
+import EmailList from "./components/EmailList";
 
 function App() {
   const dispatch = useDispatch();
@@ -50,35 +50,12 @@ function App() {
       <div className='max-w-7xl mx-auto'>
         <FilterBar filterBy={filterBy} setFilterBy={setFilterBy} />
         <div className={`grid ${emailListView} gap-6`}>
-          <div className='space-y-6 col-span-1 h-screen sticky overflow-y-auto no-scrollbar pb-16'>
-            {filteredEmailList?.map((emailItem) => {
-              const {
-                date,
-                from: { name, email },
-                id,
-                short_description: shortDescription,
-                subject,
-                isRead,
-                isFavorite,
-              } = emailItem;
+          <EmailList
+            filteredEmailList={filteredEmailList}
+            selectedEmail={selectedEmail}
+            setSelectedEmail={setSelectedEmail}
+          />
 
-              return (
-                <EmailItem
-                  key={id}
-                  date={date}
-                  name={name}
-                  email={email}
-                  id={id}
-                  isRead={isRead}
-                  isFavorite={isFavorite}
-                  shortDescription={shortDescription}
-                  subject={subject}
-                  isSelected={selectedEmail?.id === id}
-                  handleClick={() => setSelectedEmail(emailItem)}
-                />
-              );
-            })}
-          </div>
           {selectedEmail && (
             <div className='col-span-2'>
               <EmailBody
