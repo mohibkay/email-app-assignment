@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
-import { toggleReadStatus } from "../emailListSlice";
-import { formatDateFromEpoch } from "../lib/utils";
+import { toggleReadStatus } from "../../emailListSlice";
+import { formatDateFromEpoch } from "../../lib/utils";
 import PropTypes from "prop-types";
 
 const EmailItem = ({

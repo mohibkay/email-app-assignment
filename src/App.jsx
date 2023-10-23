@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import EmailDetails from "./components/EmailDetails";
+import EmailDetails from "./components/ui/EmailDetails";
 import { useGetEmailListQuery } from "./services/emailList";
 import { useDispatch, useSelector } from "react-redux";
 import { setList } from "./emailListSlice";
-import FilterBar from "./components/FilterBar";
-import EmailList from "./components/EmailList";
-import Spinner from "./components/Spinner";
+import FilterBar from "./components/ui/FilterBar";
+import EmailList from "./components/ui/EmailList";
+import Spinner from "./components/utils/Spinner";
 
 function App() {
   const dispatch = useDispatch();

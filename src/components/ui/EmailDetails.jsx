@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { formatDateFromEpoch } from "../lib/utils";
+import { formatDateFromEpoch } from "../../lib/utils";
 import HTMLParser from "html-to-json-parser";
-import { useGetEmailDetailsQuery } from "../services/emailDetails";
+import { useGetEmailDetailsQuery } from "../../services/emailDetails";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleFavoriteStatus } from "../emailListSlice";
-import Spinner from "./Spinner";
+import { toggleFavoriteStatus } from "../../emailListSlice";
+import Spinner from "../utils/Spinner";
 
 const EmailDetails = ({ selectedEmailId, date, name, subject }) => {
   const emailList = useSelector((state) => state.emailList.list);
