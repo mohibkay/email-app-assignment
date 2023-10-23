@@ -5,6 +5,7 @@ import EmailItem from "./components/EmailItem";
 import { useGetEmailListQuery } from "./services/emailList";
 import { useDispatch, useSelector } from "react-redux";
 import { setList } from "./emailListSlice";
+import FilterBar from "./components/FilterBar";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,15 +24,20 @@ function App() {
   }, [dispatch, data]);
 
   useEffect(() => {
-    const filteredList = emailList.filter((email) =>
-      filterBy === "favorite"
-        ? email.isFavorite
-        : filterBy === "read"
-        ? email.isRead
-        : filterBy === "unread"
-        ? !email.isRead
-        : email
-    );
+    let filteredList = emailList;
+    switch (filterBy) {
+      case "favorite":
+        filteredList = emailList.filter((email) => email.isFavorite);
+        break;
+      case "read":
+        filteredList = emailList.filter((email) => email.isRead);
+        break;
+      case "unread":
+        filteredList = emailList.filter((email) => !email.isRead);
+        break;
+      default:
+        filteredList = emailList;
+    }
     setFilteredEmailList(filteredList);
   }, [emailList, filterBy]);
 
@@ -42,58 +48,7 @@ function App() {
   return (
     <div className='p-6'>
       <div className='max-w-7xl mx-auto'>
-        <div className='flex items-center space-x-2 mb-6'>
-          Filter By:
-          <button
-            onClick={() => setFilterBy("unread")}
-            className={`${
-              filterBy === "unread"
-                ? "bg-filter-btn text-primary-foreground"
-                : ""
-            } rounded-full px-4 ml-6`}
-          >
-            Unread
-          </button>
-          <button
-            onClick={() => {
-              setFilterBy("read");
-            }}
-            className={`${
-              filterBy === "read" ? "bg-filter-btn text-primary-foreground" : ""
-            } rounded-full px-4`}
-          >
-            Read
-          </button>
-          <button
-            onClick={() => setFilterBy("favorite")}
-            className={`${
-              filterBy === "favorite"
-                ? "bg-filter-btn text-primary-foreground"
-                : ""
-            } rounded-full px-4`}
-          >
-            Favorites
-          </button>
-          {filterBy && (
-            <button className='ml-4' onClick={() => setFilterBy("")}>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth='1.5'
-                stroke='currentColor'
-                className='w-6 h-6'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M6 18L18 6M6 6l12 12'
-                />
-              </svg>
-            </button>
-          )}
-        </div>
-
+        <FilterBar filterBy={filterBy} setFilterBy={setFilterBy} />
         <div className={`grid ${emailListView} gap-6`}>
           <div className='space-y-6 col-span-1 h-screen sticky overflow-y-auto no-scrollbar pb-16'>
             {filteredEmailList?.map((emailItem) => {
