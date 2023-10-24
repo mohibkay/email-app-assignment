@@ -7,10 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleFavoriteStatus } from "../../emailListSlice";
 import Spinner from "../utils/Spinner";
 
-const EmailDetails = ({ selectedEmailId, date, name, subject }) => {
-  const emailList = useSelector((state) => state.emailList.list);
-  const selectedEmail = emailList.find((email) => email.id === selectedEmailId);
-  const { isFavorite } = selectedEmail;
+const EmailDetails = () => {
+  const selectedEmail = useSelector((state) => state.emailList.selectedEmail);
+  const {
+    id: selectedEmailId,
+    date,
+    from: { name },
+    isFavorite,
+    subject,
+  } = selectedEmail;
+  console.log("🐬 ~ EmailDetails ~ selectedEmail:", selectedEmail);
   const dispatch = useDispatch();
   const [bodyInJson, setBodyInJson] = useState([]);
   const skip = !selectedEmailId;

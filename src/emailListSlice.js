@@ -1,7 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
+import storage from "redux-persist/lib/storage";
+
+export const persistConfig = {
+  key: "emailStates",
+  storage,
+  whitelist: ["emailStatus", "selectedEmail"],
+};
 
 const initialState = {
   list: [],
+  emailStatus: [],
+  selectedEmail: null,
 };
 
 export const emailListSlice = createSlice({
@@ -16,21 +25,47 @@ export const emailListSlice = createSlice({
       }));
     },
     toggleReadStatus: (state, action) => {
-      const email = state.list.find((item) => item.id === action.payload);
-      if (email) {
-        email.isRead = true;
+      const emailIndex = state.emailStatus.findIndex(
+        (item) => item.id === action.payload
+      );
+
+      if (emailIndex !== -1) {
+        state.emailStatus[emailIndex].isRead = true;
+      } else {
+        state.emailStatus.push({
+          id: action.payload,
+          isRead: true,
+          isFavorite: false,
+        });
       }
     },
     toggleFavoriteStatus: (state, action) => {
-      const email = state.list.find((item) => item.id === action.payload);
-      if (email) {
-        email.isFavorite = !email.isFavorite;
+      const emailIndex = state.emailStatus.findIndex(
+        (item) => item.id === action.payload
+      );
+
+      if (emailIndex !== -1) {
+        state.emailStatus[emailIndex].isFavorite =
+          !state.emailStatus[emailIndex].isFavorite;
+      } else {
+        state.emailStatus.push({
+          id: action.payload,
+          isRead: false,
+          isFavorite: true,
+        });
       }
+    },
+    setSelectedEmail: (state, action) => {
+      state.selectedEmail = action.payload;
     },
   },
 });
 
-export const { setList, toggleReadStatus, toggleFavoriteStatus } =
-  emailListSlice.actions;
+export const {
+  setList,
+  toggleReadStatus,
+  toggleFavoriteStatus,
+  setSelectedEmail,
+} = emailListSlice.actions;
 
 export default emailListSlice.reducer;

@@ -3,27 +3,53 @@ import "./App.css";
 import EmailDetails from "./components/ui/EmailDetails";
 import { useGetEmailListQuery } from "./services/emailList";
 import { useDispatch, useSelector } from "react-redux";
-import { setList } from "./emailListSlice";
+import { setList, setSelectedEmail } from "./emailListSlice";
 import FilterBar from "./components/ui/FilterBar";
 import EmailList from "./components/ui/EmailList";
 import Spinner from "./components/utils/Spinner";
 import Pagination from "./components/ui/Pagination";
+import { persistor } from "./store";
 
 function App() {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
-  const [selectedEmail, setSelectedEmail] = useState(null);
   const [filterBy, setFilterBy] = useState("");
   const { data, isFetching } = useGetEmailListQuery(page);
+
+  const selectedEmail = useSelector((state) => state.emailList.selectedEmail);
+  const emailStatus = useSelector((state) => state.emailList.emailStatus);
+
   const emailListView = selectedEmail ? "grid-cols-3" : "grid-cols-1";
   const emailList = useSelector((state) => state.emailList.list);
   const [filteredEmailList, setFilteredEmailList] = useState([...emailList]);
   const isOpenInSidePane = !!selectedEmail;
-  console.log("🐬 ~ App ~ filteredEmailList:", filteredEmailList);
+
+  const persistedEmailStatusMap = new Map(
+    emailStatus.map((email) => [email.id, email])
+  );
+
+  const updatedFilteredEmails = filteredEmailList.map((email) => {
+    const persistedData = persistedEmailStatusMap.get(email.id);
+    if (persistedData) {
+      return {
+        ...email,
+        isRead: persistedData.isRead,
+        isFavorite: persistedData.isFavorite,
+      };
+    }
+    return email;
+  });
+  console.log(
+    "🐬 ~ updatedFilteredEmails ~ updatedFilteredEmails:",
+    updatedFilteredEmails
+  );
+
+  console.log("🐬 ~ App ~ selectedEmail:", selectedEmail);
 
   useEffect(() => {
     if (data) {
       dispatch(setList(data?.list));
+      persistor.persist();
     }
   }, [dispatch, data]);
 
@@ -46,7 +72,7 @@ function App() {
   }, [emailList, filterBy]);
 
   useEffect(() => {
-    setSelectedEmail(null);
+    dispatch(setSelectedEmail(null));
   }, [filterBy]);
 
   return (
@@ -69,9 +95,7 @@ function App() {
           ) : (
             <EmailList
               isOpenInSidePane={isOpenInSidePane}
-              filteredEmailList={filteredEmailList}
-              selectedEmail={selectedEmail}
-              setSelectedEmail={setSelectedEmail}
+              filteredEmailList={updatedFilteredEmails}
             />
           )}
 
