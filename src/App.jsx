@@ -18,10 +18,11 @@ function App() {
 
   const selectedEmail = useSelector((state) => state.emailList.selectedEmail);
 
-  const emailListView = selectedEmail ? "grid-cols-3" : "grid-cols-1";
+  const emailListView = selectedEmail
+    ? "grid-cols-1 md:grid-cols-3"
+    : "grid-cols-1";
   const emailList = useSelector((state) => state.emailList.list);
   const [filteredEmailList, setFilteredEmailList] = useState([...emailList]);
-
   const isOpenInSidePane = !!selectedEmail;
 
   useEffect(() => {
@@ -56,7 +57,7 @@ function App() {
   return (
     <div className='p-6 h-screen'>
       <div className='max-w-7xl mx-auto'>
-        <div className='flex items-center justify-between mb-6'>
+        <div className='flex flex-col md:flex-row items-center justify-between mb-6'>
           <FilterBar filterBy={filterBy} setFilterBy={setFilterBy} />
           {!isFetching && (
             <Pagination
@@ -67,7 +68,7 @@ function App() {
             />
           )}
         </div>
-        <div className={`grid ${emailListView} gap-6`}>
+        <div className={`grid ${emailListView} gap-0 md:gap-6`}>
           {isFetching ? (
             <Spinner />
           ) : (

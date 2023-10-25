@@ -5,9 +5,12 @@ import EmailItem from "./EmailItem";
 
 const EmailList = ({ isOpenInSidePane, filteredEmailList }) => {
   const selectedEmail = useSelector((state) => state.emailList.selectedEmail);
+  const hideEmailListOnMobile = selectedEmail ? "hidden md:block" : "";
 
   return (
-    <div className='space-y-6 col-span-1 h-[calc(100vh-84px)] sticky overflow-y-auto no-scrollbar pb-4'>
+    <div
+      className={`space-y-6 col-span-1 h-[calc(100vh-84px)] sticky overflow-y-auto no-scrollbar pb-4 ${hideEmailListOnMobile}`}
+    >
       {filteredEmailList?.map((emailItem) => {
         const { id } = emailItem;
 

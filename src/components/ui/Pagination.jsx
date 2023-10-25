@@ -10,7 +10,7 @@ const Pagination = ({ page, setPage, emailCount, totalEmailCount }) => {
   };
 
   return (
-    <div className='flex items-center space-x-3'>
+    <div className='flex items-center space-x-3 mt-4'>
       <div>
         <span>{calculateEmailRange(page, emailCount, totalEmailCount)}</span>
       </div>
