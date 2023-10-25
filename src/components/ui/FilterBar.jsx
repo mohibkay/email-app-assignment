@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 const FilterBar = ({ filterBy, setFilterBy }) => {
   return (
-    <div className='flex items-center space-x-2 mb-6'>
+    <div className='flex items-center space-x-2'>
       Filter By:
       <button
         onClick={() => setFilterBy("unread")}

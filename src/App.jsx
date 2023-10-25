@@ -78,7 +78,7 @@ function App() {
   return (
     <div className='p-6 h-screen'>
       <div className='max-w-7xl mx-auto'>
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center justify-between mb-6'>
           <FilterBar filterBy={filterBy} setFilterBy={setFilterBy} />
           {!isFetching && (
             <Pagination
