@@ -9,7 +9,7 @@ const EmailList = ({ isOpenInSidePane, filteredEmailList }) => {
 
   return (
     <div
-      className={`space-y-6 col-span-1 h-[calc(100vh-84px)] sticky overflow-y-auto no-scrollbar pb-4 ${hideEmailListOnMobile}`}
+      className={`space-y-6 col-span-1 h-[calc(100dvh-128px)] md:h-[calc(100vh-84px)] overflow-y-auto no-scrollbar pb-4 ${hideEmailListOnMobile}`}
     >
       {filteredEmailList?.map((emailItem) => {
         const { id } = emailItem;
