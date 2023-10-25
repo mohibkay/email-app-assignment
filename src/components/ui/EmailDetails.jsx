@@ -2,21 +2,23 @@ import { useEffect, useState } from "react";
 import { formatDateFromEpoch } from "../../lib/utils";
 import HTMLParser from "html-to-json-parser";
 import { useGetEmailDetailsQuery } from "../../services/emailDetails";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleFavoriteStatus } from "../../emailListSlice";
 import Spinner from "../utils/Spinner";
 
 const EmailDetails = () => {
   const selectedEmail = useSelector((state) => state.emailList.selectedEmail);
+  const persistedEmail = useSelector((state) => state.emailList.emailStatus);
+  const isFavoriteEmail = persistedEmail?.find(
+    (email) => email.id === selectedEmail.id
+  ).isFavorite;
   const {
     id: selectedEmailId,
     date,
     from: { name },
-    isFavorite,
     subject,
   } = selectedEmail;
-  console.log("🐬 ~ EmailDetails ~ selectedEmail:", selectedEmail);
+
   const dispatch = useDispatch();
   const [bodyInJson, setBodyInJson] = useState([]);
   const skip = !selectedEmailId;
@@ -64,7 +66,7 @@ const EmailDetails = () => {
             onClick={handleMarkFavorite}
             className='bg-highlight text-white rounded-full px-4 py-1.5 font-medium text-sm'
           >
-            {isFavorite ? "Remove from Favorite" : "Mark as favorite"}
+            {isFavoriteEmail ? "Remove from Favorite" : "Mark as favorite"}
           </button>
         </header>
 
@@ -82,14 +84,6 @@ const EmailDetails = () => {
       </div>
     </div>
   );
-};
-
-EmailDetails.propTypes = {
-  selectedEmailId: PropTypes.string.isRequired,
-  date: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  subject: PropTypes.string.isRequired,
-  isFavorite: PropTypes.bool.isRequired,
 };
 
 export default EmailDetails;

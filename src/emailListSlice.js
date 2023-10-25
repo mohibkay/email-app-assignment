@@ -3,6 +3,7 @@ import storage from "redux-persist/lib/storage";
 
 export const persistConfig = {
   key: "emailStates",
+  timeout: 100,
   storage,
   whitelist: ["emailStatus", "selectedEmail"],
 };
@@ -17,13 +18,30 @@ export const emailListSlice = createSlice({
   name: "emailList",
   initialState,
   reducers: {
+    // setList: (state, action) => {
+    //   state.list = action.payload.map((email) => ({
+    //     ...email,
+    //     isRead: false,
+    //     isFavorite: false,
+    //   }));
+    // },
     setList: (state, action) => {
-      state.list = action.payload.map((email) => ({
-        ...email,
-        isRead: false,
-        isFavorite: false,
-      }));
+      state.list = action.payload.map((email) => {
+        const persistedEmail = state.emailStatus.find(
+          (item) => item.id === email.id
+        );
+
+        const isRead = persistedEmail ? persistedEmail.isRead : false;
+        const isFavorite = persistedEmail ? persistedEmail.isFavorite : false;
+
+        return {
+          ...email,
+          isRead,
+          isFavorite,
+        };
+      });
     },
+
     toggleReadStatus: (state, action) => {
       const emailIndex = state.emailStatus.findIndex(
         (item) => item.id === action.payload
@@ -38,7 +56,18 @@ export const emailListSlice = createSlice({
           isFavorite: false,
         });
       }
+
+      state.list = state.list.map((email) => {
+        if (email.id === action.payload) {
+          return {
+            ...email,
+            isRead: true,
+          };
+        }
+        return email;
+      });
     },
+
     toggleFavoriteStatus: (state, action) => {
       const emailIndex = state.emailStatus.findIndex(
         (item) => item.id === action.payload
@@ -54,7 +83,18 @@ export const emailListSlice = createSlice({
           isFavorite: true,
         });
       }
+
+      state.list = state.list.map((email) => {
+        if (email.id === action.payload) {
+          return {
+            ...email,
+            isFavorite: !email.isFavorite,
+          };
+        }
+        return email;
+      });
     },
+
     setSelectedEmail: (state, action) => {
       state.selectedEmail = action.payload;
     },
