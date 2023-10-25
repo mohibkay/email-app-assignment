@@ -3,7 +3,7 @@ import { formatDateFromEpoch } from "../../lib/utils";
 import HTMLParser from "html-to-json-parser";
 import { useGetEmailDetailsQuery } from "../../services/emailDetails";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleFavoriteStatus } from "../../emailListSlice";
+import { toggleFavoriteStatus, setSelectedEmail } from "../../emailListSlice";
 import Spinner from "../utils/Spinner";
 
 const EmailDetails = () => {
@@ -32,6 +32,10 @@ const EmailDetails = () => {
     return result;
   }
 
+  function hideEmailDetails() {
+    dispatch(setSelectedEmail(null));
+  }
+
   useEffect(() => {
     try {
       if (data) {
@@ -47,38 +51,60 @@ const EmailDetails = () => {
   };
 
   return (
-    <div className='flex gap-4 border h-[calc(100vh-84px)] bg-white border-grayBorder cursor-pointer px-4 py-4 rounded-lg'>
-      <div className='h-12 w-12 uppercase rounded-full shrink-0 bg-highlight text-white grid place-content-center text-xl font-semibold'>
-        {name[0]}
-      </div>
+    <div className='flex flex-col md:flex-row gap-col-4 md:gap-row-4 border h-screen md:h-[calc(100vh-84px)] bg-white border-grayBorder cursor-pointer px-4 py-4 rounded-lg absolute inset-0 overflow-y-scroll md:static'>
+      <button className='md:hidden' onClick={hideEmailDetails}>
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          fill='none'
+          viewBox='0 0 24 24'
+          strokeWidth='2'
+          stroke='currentColor'
+          className='w-6 h-6'
+        >
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            d='M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18'
+          />
+        </svg>
+      </button>
 
-      <div className='space-y-2 w-full px-4 flex flex-col'>
-        <header className='space-y-1 sticky flex items-center justify-between  mb-6'>
-          <div>
-            <span className='text-primary-foreground mb-4 text-3xl font-semibold block'>
-              {subject}
-            </span>
-            <span className='text-primary-foreground block'>
-              {formatDateFromEpoch(date)}
-            </span>
+      <div className='space-y-2 w-full px-4 py-5 pr-5 flex flex-col'>
+        <header className='flex flex-col md:flex-row justify-between gap-6 sticky'>
+          <div className='h-12 w-12 mx-auto md:mx-0 uppercase rounded-full shrink-0 bg-highlight text-white grid place-content-center text-xl font-semibold'>
+            {name[0]}
           </div>
-          <button
-            onClick={handleMarkFavorite}
-            className='bg-highlight text-white rounded-full px-4 py-1.5 font-medium text-sm'
-          >
-            {isFavoriteEmail ? "Remove from Favorite" : "Mark as favorite"}
-          </button>
+
+          <section className='space-y-1 sticky flex flex-col md:flex-row flex-1 items-center md:items-start justify-between mb-6 md:mb-0'>
+            <div className='mb-4'>
+              <span className='text-primary-foreground mb-4 text-3xl font-semibold block'>
+                {subject}
+              </span>
+              <span className='text-primary-foreground block text-center md:text-start'>
+                {formatDateFromEpoch(date)}
+              </span>
+            </div>
+            <button
+              onClick={handleMarkFavorite}
+              className='bg-highlight text-white rounded-full px-4 py-1.5 font-medium text-xs'
+            >
+              {isFavoriteEmail ? "Remove from Favorite" : "Mark as favorite"}
+            </button>
+          </section>
         </header>
 
         {isFetching ? (
           <Spinner />
         ) : (
-          <div className='space-y-4 mt-8 flex-1 overflow-auto '>
-            {bodyInJson?.content?.map((item, idx) => (
-              <p className='text-primary-foreground text-sm' key={item + idx}>
-                {item.content}
-              </p>
-            ))}
+          <div className='mt-8 md:mt-0 flex flex-1 overflow-auto gap-6 md:gap-row-0'>
+            <div className='w-12 shrink-0 hidden md:inline'></div>
+            <div className='space-y-4'>
+              {bodyInJson?.content?.map((item, idx) => (
+                <p className='text-primary-foreground text-sm' key={item + idx}>
+                  {item.content}
+                </p>
+              ))}
+            </div>
           </div>
         )}
       </div>

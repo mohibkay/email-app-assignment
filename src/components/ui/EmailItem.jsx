@@ -16,7 +16,9 @@ const EmailItem = ({ emailItem, isSelected, isOpenInSidePane }) => {
   } = emailItem;
   const highlightSelectedEmail = isSelected ? "border-highlight" : "";
   const readEmaiBg = isRead ? "bg-read-background" : "bg-white";
-  const textMaxWidth = isOpenInSidePane ? "max-w-[32ch]" : "";
+  const textMaxWidth = isOpenInSidePane
+    ? "max-w-[28ch] md:max-w-[32ch]"
+    : "max-w-[28ch] md:max-w-full";
   const dispatch = useDispatch();
 
   return (
