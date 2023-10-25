@@ -1,21 +1,19 @@
 import { useDispatch } from "react-redux";
-import { toggleReadStatus } from "../../emailListSlice";
-import { formatDateFromEpoch } from "../../lib/utils";
 import PropTypes from "prop-types";
+import { setSelectedEmail, toggleReadStatus } from "../../emailListSlice";
+import { formatDateFromEpoch } from "../../lib/utils";
+import { persistor } from "../../store";
 
-const EmailItem = ({
-  id,
-  date,
-  name,
-  email,
-  isRead,
-  isFavorite,
-  shortDescription,
-  subject,
-  isSelected,
-  handleClick,
-  isOpenInSidePane,
-}) => {
+const EmailItem = ({ emailItem, isSelected, isOpenInSidePane }) => {
+  const {
+    id,
+    date,
+    from: { name, email },
+    isRead,
+    isFavorite,
+    short_description: shortDescription,
+    subject,
+  } = emailItem;
   const highlightSelectedEmail = isSelected ? "border-highlight" : "";
   const readEmaiBg = isRead ? "bg-read-background" : "bg-white";
   const textMaxWidth = isOpenInSidePane ? "max-w-[32ch]" : "";
@@ -25,7 +23,8 @@ const EmailItem = ({
     <div
       onClick={() => {
         dispatch(toggleReadStatus(id));
-        handleClick();
+        dispatch(setSelectedEmail(emailItem));
+        persistor.persist();
       }}
       className={`flex items-start gap-4 border hover:shadow-xl cursor-pointer px-6 py-3 rounded-lg ${highlightSelectedEmail} ${readEmaiBg}`}
     >
@@ -65,17 +64,20 @@ const EmailItem = ({
 };
 
 EmailItem.propTypes = {
-  isRead: PropTypes.bool.isRequired,
-  isFavorite: PropTypes.bool.isRequired,
-  id: PropTypes.string.isRequired,
-  date: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  shortDescription: PropTypes.string.isRequired,
-  subject: PropTypes.string.isRequired,
   isSelected: PropTypes.bool.isRequired,
   isOpenInSidePane: PropTypes.bool.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  emailItem: PropTypes.shape({
+    date: PropTypes.number.isRequired,
+    from: PropTypes.shape({
+      email: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+    id: PropTypes.string.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    isRead: PropTypes.bool.isRequired,
+    short_description: PropTypes.string.isRequired,
+    subject: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default EmailItem;

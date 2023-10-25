@@ -14,3 +14,10 @@ export function formatDateFromEpoch(epochTime) {
 
   return `${formattedDate} ${formattedTime}`;
 }
+
+const maxEmailsPerPage = 10;
+export function calculateEmailRange(page, emailCount, totalEmailCount) {
+  const startIndex = (page - 1) * maxEmailsPerPage + 1;
+  const endIndex = emailCount * (page - 1) + maxEmailsPerPage;
+  return `${startIndex}-${endIndex} of ${totalEmailCount}`;
+}

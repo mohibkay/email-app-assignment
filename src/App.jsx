@@ -3,25 +3,31 @@ import "./App.css";
 import EmailDetails from "./components/ui/EmailDetails";
 import { useGetEmailListQuery } from "./services/emailList";
 import { useDispatch, useSelector } from "react-redux";
-import { setList } from "./emailListSlice";
+import { setList, setSelectedEmail } from "./emailListSlice";
 import FilterBar from "./components/ui/FilterBar";
 import EmailList from "./components/ui/EmailList";
 import Spinner from "./components/utils/Spinner";
+import Pagination from "./components/ui/Pagination";
+import { persistor } from "./store";
 
 function App() {
   const dispatch = useDispatch();
-  const [selectedEmail, setSelectedEmail] = useState(null);
+  const [page, setPage] = useState(1);
   const [filterBy, setFilterBy] = useState("");
-  const { data, isLoading } = useGetEmailListQuery();
+  const { data, isFetching } = useGetEmailListQuery(page);
+
+  const selectedEmail = useSelector((state) => state.emailList.selectedEmail);
+
   const emailListView = selectedEmail ? "grid-cols-3" : "grid-cols-1";
   const emailList = useSelector((state) => state.emailList.list);
   const [filteredEmailList, setFilteredEmailList] = useState([...emailList]);
+
   const isOpenInSidePane = !!selectedEmail;
-  console.log("🐬 ~ App ~ filteredEmailList:", filteredEmailList);
 
   useEffect(() => {
     if (data) {
       dispatch(setList(data?.list));
+      persistor.persist();
     }
   }, [dispatch, data]);
 
@@ -44,34 +50,36 @@ function App() {
   }, [emailList, filterBy]);
 
   useEffect(() => {
-    setSelectedEmail(null);
+    dispatch(setSelectedEmail(null));
   }, [filterBy]);
 
   return (
     <div className='p-6 h-screen'>
       <div className='max-w-7xl mx-auto'>
-        <FilterBar filterBy={filterBy} setFilterBy={setFilterBy} />
+        <div className='flex items-center justify-between mb-6'>
+          <FilterBar filterBy={filterBy} setFilterBy={setFilterBy} />
+          {!isFetching && (
+            <Pagination
+              page={page}
+              setPage={setPage}
+              emailCount={data.list.length}
+              totalEmailCount={data.total}
+            />
+          )}
+        </div>
         <div className={`grid ${emailListView} gap-6`}>
-          {isLoading ? (
+          {isFetching ? (
             <Spinner />
           ) : (
             <EmailList
               isOpenInSidePane={isOpenInSidePane}
               filteredEmailList={filteredEmailList}
-              selectedEmail={selectedEmail}
-              setSelectedEmail={setSelectedEmail}
             />
           )}
 
           {isOpenInSidePane && (
             <div className='col-span-2'>
-              <EmailDetails
-                isFavorite={selectedEmail.isFavorite}
-                selectedEmailId={selectedEmail.id}
-                date={selectedEmail.date}
-                name={selectedEmail.from.name}
-                subject={selectedEmail.subject}
-              />
+              <EmailDetails />
             </div>
           )}
         </div>

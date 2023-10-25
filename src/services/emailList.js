@@ -7,7 +7,7 @@ export const emailListApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: emailListEndpoint }),
   endpoints: (builder) => ({
     getEmailList: builder.query({
-      query: () => `/`,
+      query: (page) => `/?page=${page}`,
     }),
   }),
 });

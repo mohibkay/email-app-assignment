@@ -1,39 +1,22 @@
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+
 import EmailItem from "./EmailItem";
 
-const EmailList = ({
-  isOpenInSidePane,
-  filteredEmailList,
-  selectedEmail,
-  setSelectedEmail,
-}) => {
+const EmailList = ({ isOpenInSidePane, filteredEmailList }) => {
+  const selectedEmail = useSelector((state) => state.emailList.selectedEmail);
+
   return (
     <div className='space-y-6 col-span-1 h-[calc(100vh-84px)] sticky overflow-y-auto no-scrollbar pb-4'>
       {filteredEmailList?.map((emailItem) => {
-        const {
-          date,
-          from: { name, email },
-          id,
-          short_description: shortDescription,
-          subject,
-          isRead,
-          isFavorite,
-        } = emailItem;
+        const { id } = emailItem;
 
         return (
           <EmailItem
             key={id}
-            date={date}
-            name={name}
-            email={email}
-            id={id}
-            isRead={isRead}
-            isFavorite={isFavorite}
+            emailItem={emailItem}
             isOpenInSidePane={isOpenInSidePane}
-            shortDescription={shortDescription}
-            subject={subject}
             isSelected={selectedEmail?.id === id}
-            handleClick={() => setSelectedEmail(emailItem)}
           />
         );
       })}
@@ -44,8 +27,6 @@ const EmailList = ({
 EmailList.propTypes = {
   isOpenInSidePane: PropTypes.bool.isRequired,
   filteredEmailList: PropTypes.array.isRequired,
-  selectedEmail: PropTypes.object,
-  setSelectedEmail: PropTypes.func.isRequired,
 };
 
 export default EmailList;
